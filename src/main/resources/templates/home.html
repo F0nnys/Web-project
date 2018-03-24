@@ -1,0 +1,19 @@
+<Html>
+<body>
+<pre>
+    $!{value1}
+    $!{colors}
+    #foreach($color in $colors)
+        This is color $foreach.index:$color,$foreach.count
+    #end
+
+    #foreach($kv in $map.entrySet())
+        key:$kv.key,value:$kv.value
+    #end
+    User:$!{name.name}
+    #set($title="roy's page")
+    Title:$!{title}
+    #parse("header.html")
+</pre>
+</body>
+</Html>
