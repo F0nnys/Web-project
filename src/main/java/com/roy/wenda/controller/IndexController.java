@@ -1,6 +1,8 @@
 package com.roy.wenda.controller;
 
 import com.roy.wenda.model.User;
+import com.roy.wenda.service.wendaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,10 @@ import java.util.*;
 @Controller
 public class IndexController {
 
+    @Autowired
+    wendaService wds;
+
+
     @RequestMapping("/")
     @ResponseBody
     public String index(HttpSession httpSession) {
@@ -24,9 +30,14 @@ public class IndexController {
     @RequestMapping("/profile/{userId}")
     @ResponseBody
     public String haha(@PathVariable("userId") int userId,
-                         @RequestParam("type") int type,
+                         @RequestParam(value = "type") int type,
                          @RequestParam(value = "key",defaultValue = "zz",required = true) String key){
-        return String.format("Profile Page of %d,type:%d,key:%s",userId,type,key);
+        try{
+            return String.format("Profile Page of %d,type:%d,key:%s",userId,type,key)
+                    + wds.getMessage(userId);
+        }catch (Exception e){
+            return "Wrong Elements!";
+        }
     }
 
     @RequestMapping("/vm")
@@ -69,6 +80,21 @@ public class IndexController {
             red.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
         }
         return red;
+    }
+
+    @RequestMapping("/admin")
+    @ResponseBody
+    public String admin(@RequestParam("key") String key){
+        if(key.equals("admin")){
+            return "hello world";
+        }
+        throw new IllegalArgumentException("WRONG KEY!");
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    public String error(Exception e){
+        return "error:" + e.getMessage();
     }
 
 
