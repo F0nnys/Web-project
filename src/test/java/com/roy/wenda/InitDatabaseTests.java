@@ -51,8 +51,8 @@ public class InitDatabaseTests {
             question.setContent(String.format("content:%d", i));
             questionDAO.addQuestion(question);
         }
-        for(Question question:questionDAO.selectLatestQuestions(5,0,1)){
-            System.out.println(question.getContent()+"<br>");
+        for(Question question:questionDAO.selectLatestQuestions(0,0,10)){
+            System.out.println(question.getTitle()+"<br>");
         }
 //        Assert.assertEquals("xxx0",userDAO.selectById(1).getPassword());
 //        userDAO.deleteById(1);

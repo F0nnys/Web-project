@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
-@Controller
+//@Controller
 public class IndexController {
 
     @Autowired
@@ -40,17 +40,18 @@ public class IndexController {
         }
     }
 
-    @RequestMapping("/vm")
-    public String vm(Model mode) {
-        mode.addAttribute("value1","123456");
-        List<String> colors = Arrays.asList(new String[] {"red","yello","blue","orange"});
-        mode.addAttribute("colors",colors);
-        Map<String,String> map = new HashMap<>();
-        for(int i=0;i<4;i++){
-            map.put(String.valueOf(i),String.valueOf(i*i));
+    @RequestMapping(path = {"/vm"}, method = {RequestMethod.GET})
+    public String vm(Model model) {
+        model.addAttribute("value1", "vvvvv1");
+        List<String> colors = Arrays.asList(new String[]{"RED", "GREEN", "BLUE"});
+        model.addAttribute("colors", colors);
+
+        Map<String, String> map = new HashMap<>();
+        for (int i = 0; i < 4; ++i) {
+            map.put(String.valueOf(i), String.valueOf(i * i));
         }
-        mode.addAttribute("map",map);
-        mode.addAttribute("name",new User("roy"));
+        model.addAttribute("map", map);
+        model.addAttribute("user", new User("LEE"));
         return "home";
     }
 
