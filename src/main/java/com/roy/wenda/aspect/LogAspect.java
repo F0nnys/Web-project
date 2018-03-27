@@ -13,23 +13,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 
 
 @Aspect
 @Component
 public class LogAspect {
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
-    @Before("execution(* com.roy.wenda.*.*.*(..))")
-    public void beforeMethod(JoinPoint joinPoint){
+    @Before("execution(* com.roy.wenda.controller.*Controller.*(..))")
+    public void beforeMethod(JoinPoint joinPoint) {
         StringBuilder sb = new StringBuilder();
-        for(Object k:joinPoint.getArgs()){
-            sb.append("args:"+String.valueOf(k)+"|");
+        for (Object k : joinPoint.getArgs()) {
+            if (k != null) {
+                sb.append("args:" + k.toString() + "|");
+            }
+            logger.info("before method:" + sb.toString());
         }
-        logger.info("hello"+sb.toString());
     }
 
     @After("execution(* com.roy.wenda.controller.*.*(..))")
     public void afterMethod(){
-        logger.info("world");
+        logger.info("after method"+new Date());
     }
 }
