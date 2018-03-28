@@ -31,4 +31,8 @@ public class QuestionService {
     public Question selectById(int id){
         return questionDAO.selectById(id);
     }
+
+    public boolean updateCommentCount(int id,int commentCount){
+        return questionDAO.updateCommentCount(id,commentCount) > 0;
+    }
 }

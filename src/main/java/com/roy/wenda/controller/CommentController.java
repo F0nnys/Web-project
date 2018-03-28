@@ -5,6 +5,7 @@ import com.roy.wenda.model.Comment;
 import com.roy.wenda.model.EntityType;
 import com.roy.wenda.model.HostHolder;
 import com.roy.wenda.service.CommentService;
+import com.roy.wenda.service.QuestionService;
 import com.roy.wenda.wendaUtil.WendaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,9 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
+    @Autowired
+    QuestionService questionService;
+
     @RequestMapping(path = {"/addComment"},method = RequestMethod.POST)
     public String addComment(@RequestParam("questionId") int questionId,
                              @RequestParam("content") String content){
@@ -41,6 +45,9 @@ public class CommentController {
             comment.setEntityType(EntityType.ENTITY_COMMENT);
             comment.setEntityId(questionId);
             commentService.addComment(comment);
+
+            int count = commentService.getCommentCount(comment.getEntityId(),comment.getEntityType());
+            questionService.updateCommentCount(comment.getEntityId(),count);
         }catch (Exception e){
             logger.error("添加评论错误" + e.getMessage());
         }
